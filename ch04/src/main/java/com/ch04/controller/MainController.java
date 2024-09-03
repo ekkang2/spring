@@ -9,17 +9,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class MainController {
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
-    public void hello(){
+    public String hello(){
         System.out.println("hello...");
+        return "hello";
     }
 
     @GetMapping("/welcome")
-    public void welcome(){
+    public String welcome(){
         System.out.println("welcome...");
+        return "welcome";
     }
 
     @GetMapping("/greeting")
-    public void greeting(){
+    public String greeting(){
         System.out.println("greeting...");
+        return "greeting";
     }
 }
