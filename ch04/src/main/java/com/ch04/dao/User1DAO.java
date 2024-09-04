@@ -58,6 +58,7 @@ public class User1DAO {
     }
 
     public void deleteUser1(String uid){
-
+        String sql = "delete from user1 where uid=?";
+        jdbcTemplate.update(sql, uid);
     }
 }

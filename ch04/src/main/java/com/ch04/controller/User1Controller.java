@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -53,7 +54,7 @@ public class User1Controller {
     }
 
     @GetMapping("/user1/modify")
-    public String modify(@RequestParam("uid") String uid, Model model){
+    public String modify(@RequestParam("uid") String uid, Model model){ // @RequestParam("uid") 생략하면 안됨
         System.out.println("uid : " + uid);
 
         // 수정 회원 조회
@@ -66,8 +67,7 @@ public class User1Controller {
     }
 
     @PostMapping("/user1/modify")
-    public String modify(User1DTO dto){
-
+    public String modify(@ModelAttribute User1DTO dto){ // @ModelAttribute 생략가능
         System.out.println(dto);
 
         // 수정
@@ -77,9 +77,14 @@ public class User1Controller {
         return "redirect:/user1/list";
     }
 
-
     @GetMapping("/user1/delete")
-    public String delete(){
-        return "/user1/delete";
+    public String delete(@RequestParam("uid") String uid){ // @RequestParam("uid") 생략하면 안됨
+        System.out.println("uid : " + uid);
+
+        // 삭제
+        service.deleteUser1(uid);
+
+        // 리다이렉트
+        return "redirect:/user1/list";
     }
 }
