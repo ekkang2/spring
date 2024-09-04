@@ -19,6 +19,10 @@
 			<th>나이</th>
 			<th>관리</th>
 		</tr>
+		<%--
+			- Spring JSP에서는 EL문법이 기본적으로 비활성 되는거 같음
+			- Spring JSP에서 EL문법을 처리하기 위해 상단 page 지시자에 isELIgnored="false" 추가
+		--%>
 		<c:forEach var="user" items="${users}">
 		<tr>
 			<td>${user.uid}</td>
@@ -27,7 +31,7 @@
 			<td>${user.hp}</td>
 			<td>${user.age}</td>
 			<td>
-				<a href="#">수정</a>
+				<a href="/ch04/user1/modify?uid=${user.uid}">수정</a>
 				<a href="#">삭제</a>
 			</td>
 		</tr>

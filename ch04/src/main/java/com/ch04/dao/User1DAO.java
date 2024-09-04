@@ -3,6 +3,7 @@ package com.ch04.dao;
 
 import com.ch04.dto.User1DTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -33,7 +34,9 @@ public class User1DAO {
     }
 
     public User1DTO selectUser1(String uid){
-        return null;
+        String sql = "select * from user1 where uid=?";
+        User1DTO dto = (User1DTO) jdbcTemplate.queryForObject(sql, new User1RowMapper(), uid);
+        return dto;
     }
     public List<User1DTO> selectUser1s(){
         String sql = "select * from user1";
@@ -42,7 +45,18 @@ public class User1DAO {
 
     public void updateUser1(User1DTO dto){
 
+        String sql = "update user1 set name = ?,birth = ?,hp = ?,age = ? where uid = ?";
+        Object[] params = {
+                dto.getName(),
+                dto.getBirth(),
+                dto.getHp(),
+                dto.getAge(),
+                dto.getUid()
+            };
+
+        jdbcTemplate.update(sql, params);
     }
+
     public void deleteUser1(String uid){
 
     }
