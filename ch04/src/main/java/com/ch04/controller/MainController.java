@@ -10,7 +10,7 @@ public class MainController {
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String hello(){
-        System.out.println("hello...");
+        System.out.println("hello...1");
         return "hello";
     }
 

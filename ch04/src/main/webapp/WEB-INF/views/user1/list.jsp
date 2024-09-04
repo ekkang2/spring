@@ -1,4 +1,5 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,17 +19,19 @@
 			<th>나이</th>
 			<th>관리</th>
 		</tr>
+		<c:forEach var="user" items="${users}">
 		<tr>
-			<td>a101</td>
-			<td>홍길동</td>
-			<td>1999-01-10</td>
-			<td>010-1234-1001</td>
-			<td>22</td>
+			<td>${user.uid}</td>
+			<td>${user.name}</td>
+			<td>${user.birth}</td>
+			<td>${user.hp}</td>
+			<td>${user.age}</td>
 			<td>
 				<a href="#">수정</a>
 				<a href="#">삭제</a>
 			</td>
 		</tr>
+		</c:forEach>
 	</table>
 </body>
 </html>

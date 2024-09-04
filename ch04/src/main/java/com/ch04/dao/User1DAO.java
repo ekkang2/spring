@@ -11,7 +11,6 @@ import java.util.List;
 @Repository
 public class User1DAO {
 
-
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -37,8 +36,10 @@ public class User1DAO {
         return null;
     }
     public List<User1DTO> selectUser1s(){
-        return null;
+        String sql = "select * from user1";
+        return jdbcTemplate.query(sql, new User1RowMapper());
     }
+
     public void updateUser1(User1DTO dto){
 
     }
