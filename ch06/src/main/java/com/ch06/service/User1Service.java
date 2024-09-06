@@ -10,6 +10,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class User1Service {
+    // 테스트 케이스 작성 : 마우스 오른버튼 > Generate... > Test... 클릭해서 테스트 작성
 
     private final User1Mapper user1Mapper;
 

@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -25,6 +26,12 @@ public class User1Controller {
     @GetMapping("/user1/register")
     public String register(){
         return "/user1/register";
+    }
+
+    @PostMapping("/user1/register")
+    public String register(User1DTO user1DTO) {
+        user1Service.insertUser1(user1DTO);
+        return "redirect:/user1/list";
     }
 
     @GetMapping("/user1/modify")
