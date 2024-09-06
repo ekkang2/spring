@@ -14,7 +14,4 @@ public class User1DTO {
     private String birth;
     private String hp;
     private int age;
-
-
-
 }
