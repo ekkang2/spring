@@ -7,6 +7,7 @@ import com.ch07.entity.board.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -92,15 +93,16 @@ public class BoardRepositoryTest {
     @Transactional
     @Test
     void selectArticlesTest(){
+
         List<Article> articles = articleRepository.findAll();
         System.out.println(articles);
 
         for(Article article : articles){
-            List<Comment> comments = article.getComment();
-            List<File> files = article.getFile();
+            //List<Comment> comments = article.getComment();
+            //List<File> files = article.getFile();
 
-            System.out.println(comments);
-            System.out.println(files);
+            //System.out.println(comments);
+           // System.out.println(files);
         }
     }
 }
