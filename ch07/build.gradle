@@ -48,6 +48,7 @@ tasks.named('test') {
 }
 
 // QueryDSL 경로설정 및 환경설정
+// 프로젝트가 실행 상태가 되어야 Q도메인 클래스 생성
 def queryDslDir = "src/main/generated"
 
 sourceSets {
