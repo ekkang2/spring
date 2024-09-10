@@ -9,6 +9,7 @@ public interface CustomerRepositoryCustom {
 
     public List<Customer> selectCustomers();
     public Customer selectCustomer(String custId);
+    public List<Customer> selectProjectionCustomer();
 
     public List<Customer> searchCustomer(String nameCondition, int ageCondition);
     public List<Customer> searchKeyword(String keyword);
