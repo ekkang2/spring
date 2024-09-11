@@ -19,7 +19,7 @@ public class UserService {
 
     public void insertUser(UserDTO userDTO) {
         // 회원가입
-        String encoded = passwordEncoder.encode(userDTO.getPass());
+        String encoded = passwordEncoder.encode(userDTO.getPass()); // 비밀번호 암호화
         userDTO.setPass(encoded);
 
         User user = userDTO.toEntity();

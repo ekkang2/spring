@@ -20,8 +20,8 @@ public class SecurityConfig {
                                     .loginPage("/user/login")
                                     .defaultSuccessUrl("/")
                                     .failureUrl("/user/login?success=100")
-                                    .usernameParameter("username")
-                                    .passwordParameter("password"));
+                                    .usernameParameter("uid")
+                                    .passwordParameter("pass"));
 
         // 로그아웃 설정
         http.logout(logout -> logout
