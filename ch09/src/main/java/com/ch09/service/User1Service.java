@@ -17,9 +17,9 @@ public class User1Service {
     
     private final User1Repository user1Repository;
 
-    public void insertUser1(User1DTO user1DTO) {
+    public User1 insertUser1(User1DTO user1DTO) {
         User1 entity = user1DTO.toEntity();
-        user1Repository.save(entity);
+        return user1Repository.save(entity);
     }
 
     public User1DTO selectUser1(String uid){
@@ -44,17 +44,23 @@ public class User1Service {
         return users;
     }
 
-    public void updateUser1(User1DTO user1DTO) {
+    public User1 updateUser1(User1DTO user1DTO) {
 
         boolean result = user1Repository.existsById(user1DTO.getUid());
 
         if(result){
             User1 entity = user1DTO.toEntity();
-            user1Repository.save(entity);
+            return user1Repository.save(entity);
         }
+        return null;
     }
 
-    public void deleteUser1(String uid){
-        user1Repository.deleteById(uid);
+    public String deleteUser1(String uid){
+        try {
+            user1Repository.deleteById(uid);
+            return "success";
+        }catch (Exception e){
+            return e.getMessage();
+        }
     }
 }
