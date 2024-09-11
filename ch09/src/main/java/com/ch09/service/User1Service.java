@@ -3,6 +3,8 @@ package com.ch09.service;
 import com.ch09.dto.User1DTO;
 import com.ch09.entity.User1;
 import com.ch09.repository.User1Repository;
+import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -55,12 +57,10 @@ public class User1Service {
         return null;
     }
 
-    public String deleteUser1(String uid){
-        try {
-            user1Repository.deleteById(uid);
-            return "success";
-        }catch (Exception e){
-            return e.getMessage();
+    public void deleteUser1(String uid){
+        if (!user1Repository.existsById(uid)){
+            throw new EntityNotFoundException("user not found");
         }
+        user1Repository.deleteById(uid);
     }
 }

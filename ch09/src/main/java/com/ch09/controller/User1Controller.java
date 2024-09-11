@@ -3,6 +3,7 @@ package com.ch09.controller;
 import com.ch09.dto.User1DTO;
 import com.ch09.entity.User1;
 import com.ch09.service.User1Service;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -57,13 +58,15 @@ public class User1Controller {
     @DeleteMapping("/user1/{uid}")
     public ResponseEntity delete(@PathVariable("uid") String uid){
 
-        String result = user1Service.deleteUser1(uid);
-
-        return ResponseEntity
-                .status(HttpStatus.OK) // 200
-                .body(result);
-
+        try{
+            user1Service.deleteUser1(uid);
+            return ResponseEntity
+                    .status(HttpStatus.OK) // 200
+                    .body("success");
+        }catch (EntityNotFoundException e){
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND) // 200
+                    .body(e.getMessage());
+        }
     }
-
-
 }
