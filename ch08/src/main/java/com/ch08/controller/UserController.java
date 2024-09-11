@@ -2,6 +2,7 @@ package com.ch08.controller;
 
 import com.ch08.dto.UserDTO;
 import com.ch08.service.UserService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +28,11 @@ public class UserController {
     public String register(UserDTO userDTO){
         userService.insertUser(userDTO);
         return "redirect:/user/login";
+    }
+
+    @GetMapping("/user/success")
+    public String success(){
+        return "/user/success";
     }
 
 }
