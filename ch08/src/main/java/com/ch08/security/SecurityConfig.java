@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.LogoutDsl;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -52,7 +53,7 @@ public class SecurityConfig {
                                                     .anyRequest().permitAll());
 
         // 기타 보안 설정
-        http.csrf(configure -> configure.disable());
+        http.csrf(AbstractHttpConfigurer::disable);
 
         return http.build();
     }
