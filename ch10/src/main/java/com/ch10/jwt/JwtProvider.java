@@ -28,7 +28,6 @@ public class JwtProvider {
 
     public JwtProvider(@Value("${jwt.issuer}") String issuer,
                        @Value("${jwt.secret}") String secretKey) {
-
         this.issuer = issuer;
         this.secretKey = Keys.hmacShaKeyFor(secretKey.getBytes());
     }
@@ -89,7 +88,7 @@ public class JwtProvider {
         return new UsernamePasswordAuthenticationToken(user, token, authorities);
     }
 
-    public void validateToken(String token) throws JwtException {
+    public void validateToken(String token) throws Exception {
 
         try{
             // 토큰 검사(유효성, 만료일)
@@ -101,7 +100,7 @@ public class JwtProvider {
 
         }catch (Exception e){
             // 토큰에 문제가 있을 경우 예외 넘기기
-            throw new JwtException("Invalid JWT");
+            throw new Exception(e);
         }
     }
 }
