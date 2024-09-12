@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>userInfo1</title>
+</head>
+<body>
+  <h3>사용자 정보</h3>
+
+  <!-- thymeleaf 시큐리티 속성을 사용하기 위해 상단 thymeleaf security 네임스페이스 선언 -->
+  <p th:if="${user}">
+    아이디 : [[${user.uid}]]<br>
+    이름 : [[${user.name}]]<br>
+    생년월일 : <span th:text="${user.birth}">1990-09-01</span><br>
+    권한 : <span th:text="${user.role}">ADMIN</span><br>
+    가입일 : <span th:text="${user.rdate}">1999-09-09 11:00:00</span><br>
+  </p>
+
+  <a th:href="@{/user/logout}">로그아웃</a>
+  <a th:href="@{/}">메인</a>
+
+</body>
+</html>
