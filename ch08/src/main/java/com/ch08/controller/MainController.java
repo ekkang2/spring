@@ -4,6 +4,7 @@ import com.ch08.entity.User;
 import com.ch08.security.MyUserDetails;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,23 +18,19 @@ public class MainController {
 
     @GetMapping(value = {"/", "/index"})
     public String index(Model model) {
+        // 로그인 사용자 인증객체 가져오기
 
-        // 로그인 사용자 인증객체 가져오기(기억 *****)
+        // SecurityContextHolder를 참조해서 authentication 구하면 로그인을 하지 않아도 익명사용자 authentication 객체 가져옴
+        // 매개변수로 Authentication 선언하게 되면 null이 됨
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        log.info(authentication);
+        log.info("here1 - " + authentication);
 
-        /*
-        MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
-
-        User user = null;
-
-        if(myUserDetails != null) {
-            user = myUserDetails.getUser();
+        if(authentication != null && authentication.getPrincipal() instanceof MyUserDetails) {
+            log.info("here2..");
+            MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
+            User user = myUserDetails.getUser();
+            model.addAttribute("user", user);
         }
-        */
-
-        //model.addAttribute("user", user);
-
         return "index";
     }
 
@@ -51,9 +48,5 @@ public class MainController {
     public String staffIndex(){
         return "/staff/index";
     }
-
-
-
-
 
 }
