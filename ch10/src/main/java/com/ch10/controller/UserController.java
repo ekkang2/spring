@@ -4,6 +4,7 @@ import com.ch10.dto.UserDTO;
 import com.ch10.entity.User;
 import com.ch10.jwt.JwtProvider;
 import com.ch10.security.MyUserDetails;
+import com.ch10.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -11,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,21 +28,20 @@ public class UserController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
+    private final UserService userService;
 
     @GetMapping("/user")
-    public ResponseEntity user() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        log.info("user1 - " + authentication);
+    public ResponseEntity user(Authentication authentication) {
 
-        if(authentication != null && authentication.getPrincipal() instanceof MyUserDetails) {
-            log.info("user2..");
-            MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
-            User user = myUserDetails.getUser();
-            return ResponseEntity
-                    .ok()
-                    .body(user.toDTO());
-        }
-        return ResponseEntity.notFound().build();
+        log.info("user1 - " + authentication);
+        User user = (User) authentication.getPrincipal();
+
+        UserDTO userDTO = userService.selectUser(user.getUid());
+        log.info("user2 - " + user);
+
+        return ResponseEntity
+                .ok()
+                .body(userDTO);
     }
 
     @PostMapping("/user/login")

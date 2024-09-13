@@ -23,15 +23,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private static final String AUTH_HEADER = "Authorization";
     private static final String TOKEN_PREFIX = "Bearer";
 
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         // 요청주소에서 마지막 문자열 추출
-        String uri = request.getRequestURI();
-        int i = uri.lastIndexOf("/");
-        String path = uri.substring(i);
-        log.info("here1 - " + path);
+        //String uri = request.getRequestURI();
+        //int i = uri.lastIndexOf("/");
+        //String path = uri.substring(i);
+        //log.info("here1 - " + path);
 
         // 토큰 추출
         String header = request.getHeader(AUTH_HEADER);
