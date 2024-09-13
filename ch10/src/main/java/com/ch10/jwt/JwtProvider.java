@@ -40,18 +40,18 @@ public class JwtProvider {
         Date expireDate = new Date(issuedDate.getTime() + Duration.ofDays(days).toMillis());
         
         // 클레임 생성
-        Claims claims = Jwts.claims();
-        claims.put("username", user.getUid());
-        claims.put("role", user.getRole());
+        //Claims claims = Jwts.claims();
+        //claims.put("username", user.getUid());
+        //claims.put("role", user.getRole());
 
         // 토큰 생성
         String token = Jwts.builder()
-                .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
-                .setIssuer(issuer)
-                .setIssuedAt(issuedDate)
-                .setExpiration(expireDate)
-                .addClaims(claims)
-                .signWith(this.secretKey, SignatureAlgorithm.HS256)
+                .issuer(issuer)
+                .issuedAt(issuedDate)
+                .expiration(expireDate)
+                .claim("username", user.getUid())
+                .claim("role", user.getRole())
+                .signWith(this.secretKey, Jwts.SIG.HS256)
                 .compact();
 
         return token;
@@ -60,19 +60,19 @@ public class JwtProvider {
     // 토큰으로부터 클레임 추출
     public Claims getClaims(String token) {
         return Jwts
-                .parserBuilder()
-                .setSigningKey(this.secretKey)
+                .parser()
+                .verifyWith(this.secretKey)
                 .build()
-                .parseClaimsJws(token)
-                .getBody();
+                .parseSignedClaims(token)
+                .getPayload();
     }
 
     public Authentication getAuthentication(String token) {
         
         // 토큰으로 부터 사용자 정보 가져오기
         Claims claims = getClaims(token);
-        String username = (String) claims.get("username");
-        String role = (String) claims.get("role");
+        String username = claims.get("username", String.class);
+        String role = claims.get("role", String.class);
         
         // User 엔티티 생성
         User user = User
@@ -93,10 +93,11 @@ public class JwtProvider {
         try{
             // 토큰 검사(유효성, 만료일)
             Jwts
-                .parserBuilder()
-                .setSigningKey(this.secretKey)
+                .parser()
+                .verifyWith(this.secretKey)
                 .build()
-                .parseClaimsJws(token);
+                .parseSignedClaims(token)
+                .getPayload();
 
         }catch (Exception e){
             // 토큰에 문제가 있을 경우 예외 넘기기

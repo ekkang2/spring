@@ -32,11 +32,11 @@ class JwtProviderTest {
 
     @Test
     void getClaims() {
-        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjaGhhazA1MDNAZ21haWwuY29tIiwiaWF0IjoxNzI2MTIyOTAyLCJleHAiOjE3MjYyMDkzMDIsInVzZXJuYW1lIjoiYTEwMSIsInJvbGUiOiJBRE1JTiJ9.HWTle6NXO3xi28MfwQ5Pg5v5fzKE1LUfJOeqbyZ5At0";
+        String token = "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjaGhhazA1MDNAZ21haWwuY29tIiwiaWF0IjoxNzI2MTI3MDAxLCJleHAiOjE3MjYyMTM0MDEsInVzZXJuYW1lIjoiYTEwMSIsInJvbGUiOiJBRE1JTiJ9.C0zkty9ymYgN24SDXIMdU2QWZQYfe6r-2Eh1uo69vYU";
 
         Claims claims = jwtProvider.getClaims(token);
-        String username = (String) claims.get("username");
-        String role = (String) claims.get("role");
+        String username = claims.get("username", String.class);
+        String role = claims.get("role", String.class);
 
         System.out.println(username + ", " + role);
     }
@@ -47,7 +47,7 @@ class JwtProviderTest {
 
     @Test
     void validateToken() {
-        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjaGhhazA1MDNAZ21haWwuY29tIiwiaWF0IjoxNzI2MTIzNzQxLCJleHAiOjE3MjYxMjM3NDEsInVzZXJuYW1lIjoiYTEwMSIsInJvbGUiOiJBRE1JTiJ9.yH3PS1IGrC1mn0Qztmij53SsA7xRRRczfLrkTg0xg9c";
+        String token = "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjaGhhazA1MDNAZ21haWwuY29tIiwiaWF0IjoxNzI2MTI3MDAxLCJleHAiOjE3MjYxMjcwMDEsInVzZXJuYW1lIjoiYTEwMSIsInJvbGUiOiJBRE1JTiJ9.g55qkmiCRANQaIUZB53XE4RlfjsxvNZhBGzKoZOv5_4";
 
         try {
             jwtProvider.validateToken(token);
