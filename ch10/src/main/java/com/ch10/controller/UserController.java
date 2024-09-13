@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,19 +29,34 @@ public class UserController {
     private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
 
+    @GetMapping("/user")
+    public ResponseEntity user() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        log.info("user1 - " + authentication);
+
+        if(authentication != null && authentication.getPrincipal() instanceof MyUserDetails) {
+            log.info("user2..");
+            MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
+            User user = myUserDetails.getUser();
+            return ResponseEntity
+                    .ok()
+                    .body(user.toDTO());
+        }
+        return ResponseEntity.notFound().build();
+    }
 
     @PostMapping("/user/login")
     public ResponseEntity login(@RequestBody UserDTO userDTO){
         log.info("login1 - " + userDTO);
 
-        // Spring Security 인증 처리
-        UsernamePasswordAuthenticationToken authToken
-                = new UsernamePasswordAuthenticationToken(userDTO.getUid(), userDTO.getPass());
-
-        Authentication authentication = authenticationManager.authenticate(authToken);
-        log.info("login2 - " + authentication);
-
         try {
+            // Spring Security 인증 처리
+            UsernamePasswordAuthenticationToken authToken
+                    = new UsernamePasswordAuthenticationToken(userDTO.getUid(), userDTO.getPass());
+
+            Authentication authentication = authenticationManager.authenticate(authToken);
+            log.info("login2 - " + authentication);
+
             // 인증된 사용자 객체 가져오기
             MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
             log.info("login3 - " + myUserDetails);
