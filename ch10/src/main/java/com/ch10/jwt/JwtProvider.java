@@ -4,8 +4,8 @@ import com.ch10.entity.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
+
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,6 +17,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 
 @Getter
 @Component
@@ -39,18 +40,18 @@ public class JwtProvider {
         Date expireDate = new Date(issuedDate.getTime() + Duration.ofDays(days).toMillis());
 
         // 클레임 생성
-        Claims claims = Jwts.claims();
-        claims.put("username", user.getUid());
-        claims.put("role", user.getRole());
+        //Claims claims = Jwts.claims();
+        //claims.put("username", user.getUid());
+        //claims.put("role", user.getRole());
 
         // 토큰 생성
         String token = Jwts.builder()
-                .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
-                .setIssuer(issuer)
-                .setIssuedAt(issuedDate)
-                .setExpiration(expireDate)
-                .addClaims(claims)
-                .signWith(this.secretKey, SignatureAlgorithm.HS256)
+                .issuer(issuer)
+                .issuedAt(issuedDate)
+                .expiration(expireDate)
+                .claim("username", user.getUid())
+                .claim("role", user.getRole())
+                .signWith(this.secretKey, Jwts.SIG.HS256)
                 .compact();
 
         return token;
@@ -59,18 +60,19 @@ public class JwtProvider {
     // 토큰으로부터 클레임 추출
     public Claims getClaims(String token) {
         return Jwts
-                .parserBuilder()
-                .setSigningKey(this.secretKey)
+                .parser()
+                .verifyWith(this.secretKey)
                 .build()
-                .parseClaimsJws(token)
-                .getBody();
+                .parseSignedClaims(token)
+                .getPayload();
     }
 
     public Authentication getAuthentication(String token) {
 
+        // 토큰으로 부터 사용자 정보 가져오기
         Claims claims = getClaims(token);
-        String username = (String) claims.get("username");
-        String role = (String) claims.get("role");
+        String username = claims.get("username", String.class);
+        String role = claims.get("role", String.class);
 
         // User 엔티티 생성
         User user = User
@@ -81,7 +83,7 @@ public class JwtProvider {
 
         // 사용자 권한 목록
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_"+user.getRole())); // 계정 권한 앞에 접두어 ROLE_ 붙여야 됨
+        authorities.add(new SimpleGrantedAuthority("ROLE_"+user.getRole()));
 
         return new UsernamePasswordAuthenticationToken(user, token, authorities);
     }
@@ -89,21 +91,17 @@ public class JwtProvider {
     public void validateToken(String token) throws Exception {
 
         try{
-
-            // 토크 검사(유효성, 만료일)
+            // 토큰 검사(유효성, 만료일)
             Jwts
-                .parserBuilder()
-                .setSigningKey(this.secretKey)
-                .build()
-                .parseClaimsJws(token);
+                    .parser()
+                    .verifyWith(this.secretKey)
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
 
         }catch (Exception e){
-            // 토큰에 문제가 잇을 경우 예외 넘기기
+            // 토큰에 문제가 있을 경우 예외 넘기기
             throw new Exception(e);
         }
-
     }
-
-
-
 }

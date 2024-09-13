@@ -19,7 +19,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 public class SecurityConfig {
 
-    @Bean
+    @Bean // 스프링 컨테이너에 객체를 등록해서 어디서든 주입받아서 쓸 수 있음
     public SecurityFilterChain configure(HttpSecurity http, JwtProvider jwtProvider) throws Exception {
 
         // 토큰 기반 인증 시큐리티 설정
