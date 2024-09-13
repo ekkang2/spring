@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>register</title>
+</head>
+<body>
+  <h3>이미지 등록</h3>
+  <form th:action="@{/register}" method="post" enctype="multipart/form-data">
+    <input type="text" name="title" placeholder="제목"/><br>
+    <input type="file" name="thumb"/><br>
+    <input type="submit" value="등록"/>
+  </form>
+</body>
+</html>

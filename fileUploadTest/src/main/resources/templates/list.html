@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+</head>
+<body>
+    <h3>이미지 리스트</h3>
+    <a th:href="@{/register}">등록</a>
+    <table border="1">
+        <tr th:each="file:${files}">
+            <td>[[${file.title}]]</td>
+            <td>
+                <img th:src="@{/upload/__${file.thumb}__}" alt="t1"/>
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>
