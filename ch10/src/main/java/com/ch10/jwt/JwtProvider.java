@@ -38,11 +38,6 @@ public class JwtProvider {
         // 발급일, 만료일 생성
         Date issuedDate = new Date();
         Date expireDate = new Date(issuedDate.getTime() + Duration.ofDays(days).toMillis());
-        
-        // 클레임 생성
-        //Claims claims = Jwts.claims();
-        //claims.put("username", user.getUid());
-        //claims.put("role", user.getRole());
 
         // 토큰 생성
         String token = Jwts.builder()
