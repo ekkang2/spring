@@ -19,12 +19,13 @@ server:
         context-path: /sboard
 spring:
     application:
-        name: ch10
+        name: sboard
+        version: 0.0.1
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        password: 1234
         url: jdbc:mysql://localhost:3306/jboard
         username: jboard
+        password: "!Q2w3e4r"
     devtools:
         livereload:
             enabled: true
@@ -51,3 +52,6 @@ spring:
                     timeout: 5000
                     starttls:
                         enable: true
+
+    thymeleaf:
+        prefix: classpath:/templates
