@@ -36,8 +36,20 @@ public class User1Service {
     }
 
     public User1Document updateUser1(User1Document user1){
-        User1Document modifiedUser1 = user1Repository.save(user1);
-        return modifiedUser1;
+
+        Optional<User1Document> optUser1 = user1Repository.findByUid(user1.getUid());
+
+        if(optUser1.isPresent()){
+            User1Document savedUser1 = optUser1.get();
+            savedUser1.setName(user1.getName());
+            savedUser1.setAge(user1.getAge());
+            savedUser1.setAddr(user1.getAddr());
+
+            User1Document modifiedUser1 = user1Repository.save(user1);
+            return modifiedUser1;
+        }
+
+        return null;
     }
 
     public boolean deleteUser1(String uid){
