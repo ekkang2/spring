@@ -28,7 +28,6 @@ public class MainController {
                 .body(value);
     }
 
-
     @PostMapping("/redis/list-right")
     public void addToListFromRight(String key, String value){
         mainService.addToListFromRight(key, value);
