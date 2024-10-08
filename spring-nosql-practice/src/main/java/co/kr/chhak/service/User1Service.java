@@ -45,7 +45,7 @@ public class User1Service {
             savedUser1.setAge(user1.getAge());
             savedUser1.setAddr(user1.getAddr());
 
-            User1Document modifiedUser1 = user1Repository.save(user1);
+            User1Document modifiedUser1 = user1Repository.save(savedUser1);
             return modifiedUser1;
         }
 
