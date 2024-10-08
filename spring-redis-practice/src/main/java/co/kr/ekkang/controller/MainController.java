@@ -17,8 +17,9 @@ public class MainController {
 
     private final MainService mainService;
 
+
     @PostMapping("/redis/string")
-    public void setValue(String key, String value) {
+    public void setValue(String key, String value){
         mainService.setValue(key, value);
     }
 
@@ -30,13 +31,11 @@ public class MainController {
                 .body(value);
     }
 
-    // 큐 용(first in first out 터널)
     @PostMapping("/redis/list-right")
     public void addToListFromRight(String key, String value){
         mainService.addToListFromRight(key, value);
     }
 
-    // 스택 용(last in first out 블럭쌓기)
     @PostMapping("/redis/list-left")
     public void addToListFromLeft(String key, String value){
         mainService.addToListFromLeft(key, value);
@@ -54,6 +53,7 @@ public class MainController {
     public ResponseEntity<List<String>> getRangeFromList(@PathVariable("key") String key,
                                                          @PathVariable("start") int start,
                                                          @PathVariable("end") int end){
+
         List<String> values = mainService.getRangeFromList(key, start, end);
         return ResponseEntity
                 .ok()
