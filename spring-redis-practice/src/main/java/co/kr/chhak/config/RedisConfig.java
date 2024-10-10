@@ -1,5 +1,6 @@
 package co.kr.chhak.config;
 
+import co.kr.chhak.dto.User1;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,4 +32,12 @@ public class RedisConfig {
         redisTemplate.setDefaultSerializer(new StringRedisSerializer());
         return redisTemplate;
     }
+
+    @Bean
+    public RedisTemplate<String, User1> user1RedisTemplate() {
+        RedisTemplate<String, User1> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(getConnectionFactory());
+        return redisTemplate;
+    }
+
 }
