@@ -2,6 +2,7 @@ package co.kr.chhak.service;
 
 import co.kr.chhak.dto.User1;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,9 @@ public class User1Service {
     }
 
     // Read
+    @Cacheable(value="user1", key = "#uid")
     public User1 findByUid(String uid) {
+        System.out.println("캐싱 후 해당 출력문은 출력안됨...");
         return (User1) redisTemplate.opsForHash().get(KEY, uid);
     }
 
